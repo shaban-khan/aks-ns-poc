@@ -1,4 +1,4 @@
-//https://learn.microsoft.com/en-us/azure/templates/microsoft.containerservice/managedclusters/managednamespaces?pivots=deployment-language-terraform
+/////https://learn.microsoft.com/en-us/azure/templates/microsoft.containerservice/managedclusters/managednamespaces?pivots=deployment-language-terraform
 
 data "azurerm_kubernetes_cluster" "aks_cluster" {
   name                = var.aks_name
