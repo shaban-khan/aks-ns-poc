@@ -40,3 +40,36 @@ variable "rbac_role_name" {
 variable "subscription_id" {
   type = string
 }
+
+variable "managed_namespaces" {
+  description = "Managed AKS namespaces with quotas, network policy, and RBAC"
+  type = map(object({
+
+    labels      = optional(map(string), {})
+    annotations = optional(map(string), {})
+
+    adoptionPolicy = optional(string, "Always")
+    deletePolicy   = optional(string, "Delete")
+
+    defaultResourceQuota = object({
+      cpuLimit      = string
+      cpuRequest    = string
+      memoryLimit   = string
+      memoryRequest = string
+    })
+
+    defaultNetworkPolicy = optional(object({
+      ingress = optional(string, "AllowSameNamespace")
+      egress  = optional(string, "AllowSameNamespace")
+    }), {
+      ingress = "AllowSameNamespace"
+      egress  = "AllowSameNamespace"
+    })
+
+    rbac = object({
+      namespace_roles = map(set(string))
+      # role_name => set(AAD group object IDs)
+    })
+  }))
+}
+
