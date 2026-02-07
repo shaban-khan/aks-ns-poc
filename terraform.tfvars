@@ -114,5 +114,42 @@ managed_namespaces = {
       }
     }
   }
+  prd = {
+    labels = {
+      team = "platform"
+      env  = "prd"
+    }
+    annotations = {
+      owner = "retail"
+    }
+    adoptionPolicy = "Always"
+    deletePolicy   = "Delete"
+
+    defaultResourceQuota = {
+      cpuLimit      = "1000m"
+      cpuRequest    = "500m"
+      memoryLimit   = "2Gi"
+      memoryRequest = "1Gi"
+    }
+
+    defaultNetworkPolicy = {
+      ingress = "AllowSameNamespace"
+      egress  = "AllowSameNamespace"
+    }
+
+    rbac = {
+      namespace_roles = {
+        # "Azure Kubernetes Service RBAC Reader" = [
+        #   "c7734397-7757-40a6-90c9-8964494e0851"
+        # ]
+        # "Azure Kubernetes Service RBAC Writer" = [
+        #   "076c7d16-1623-4252-a845-5b36b067368c"
+        # ]
+        "Azure Kubernetes Service RBAC Admin" = [
+          "0e8a217c-29a5-480d-980f-5381ccb07647"
+        ]
+      }
+    }
+  }  
 }
 
