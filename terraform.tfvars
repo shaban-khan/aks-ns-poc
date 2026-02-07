@@ -77,16 +77,16 @@ managed_namespaces = {
       }
     }
   }
-  dev2 = {
-    # labels = {
-    #   team = "platform"
-    #   env  = "dev1"
-    # }
-    # annotations = {
-    #   owner = "retail"
-    # }
-    # adoptionPolicy = "Always"
-    # deletePolicy   = "Delete"
+  test = {
+    labels = {
+      team = "platform"
+      env  = "test"
+    }
+    annotations = {
+      owner = "retail"
+    }
+    adoptionPolicy = "Always"
+    deletePolicy   = "Delete"
 
     defaultResourceQuota = {
       cpuLimit      = "1000m"
@@ -95,10 +95,10 @@ managed_namespaces = {
       memoryRequest = "1Gi"
     }
 
-    # defaultNetworkPolicy = {
-    #   ingress = "AllowSameNamespace"
-    #   egress  = "AllowSameNamespace"
-    # }
+    defaultNetworkPolicy = {
+      ingress = "AllowSameNamespace"
+      egress  = "AllowSameNamespace"
+    }
 
     rbac = {
       namespace_roles = {
@@ -109,7 +109,7 @@ managed_namespaces = {
         #   "076c7d16-1623-4252-a845-5b36b067368c"
         # ]
         "Azure Kubernetes Service RBAC Admin" = [
-          "6e960790-23e7-4d45-a48f-ceae35048c4a"
+          "0e8a217c-29a5-480d-980f-5381ccb07647"
         ]
       }
     }
