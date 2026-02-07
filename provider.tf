@@ -19,6 +19,12 @@ terraform {
       version = ">= 3.8.0"
     }
   }
+  backend "azurerm" {
+    resource_group_name  = "rg-skdemo-aks-02"
+    storage_account_name = "skdemosa999"
+    container_name       = "aksns-tfstate"
+    key                  = "aks/managed-namespaces.tfstate"
+  }
 }
 
 # azurerm feature toggles
