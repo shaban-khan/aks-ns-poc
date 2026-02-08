@@ -10,6 +10,33 @@
 
 ---
 
+## Architecture Overview
+
+
+```mermaid
+flowchart LR
+    User[Client / Browser / curl] -->|HTTPS :443| GW[Envoy Gateway]
+
+    GW -->|TLS Termination| TLS[TLS Certificate\nskdemo-wildcard-tls]
+
+    GW -->|HTTP :80| SVC1[Test Service\ntest.skdemo.online]
+    GW -->|HTTP :80| SVC2[Prod Service\nprd.skdemo.online]
+
+    subgraph Kubernetes Cluster
+        GW
+        TLS
+        SVC1
+        SVC2
+    end
+```
+
+
+
+
+
+## Architecture Overview
+
+
 ## 1. Create a TLS Secret in the Envoy Gateway Namespace
 
 The TLS certificate and private key must be stored as a Kubernetes secret of type `kubernetes.io/tls`.
