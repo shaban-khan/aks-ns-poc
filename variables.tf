@@ -68,7 +68,7 @@ variable "managed_namespaces" {
 
     rbac = object({
       namespace_roles = map(set(string))
-      # role_name => set(AAD group object IDs)
+      # role_name => set(AAD group/Users object IDs)
     })
   }))
 }
