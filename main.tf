@@ -1,5 +1,3 @@
-/////https://learn.microsoft.com/en-us/azure/templates/microsoft.containerservice/managedclusters/managednamespaces?pivots=deployment-language-terraform
-
 data "azurerm_kubernetes_cluster" "aks_cluster" {
   name                = var.aks_name
   resource_group_name = var.aks_resource_group
@@ -33,5 +31,5 @@ resource "azurerm_role_assignment" "rbac" {
   scope                = each.value.scope
   role_definition_name = each.value.role
   principal_id         = each.value.principal
-  principal_type       = "Group"
 }
+

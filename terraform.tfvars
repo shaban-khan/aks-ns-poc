@@ -146,7 +146,8 @@ managed_namespaces = {
         #   "076c7d16-1623-4252-a845-5b36b067368c"
         # ]
         "Azure Kubernetes Service RBAC Admin" = [
-          "0e8a217c-29a5-480d-980f-5381ccb07647"
+          "0e8a217c-29a5-480d-980f-5381ccb07647", 
+          "c0d8a014-04c8-4f9f-b44a-556c2e64cf3d"
         ]
       }
     }

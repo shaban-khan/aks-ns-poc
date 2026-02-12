@@ -1,0 +1,19 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: nginx-route
+  namespace: prd
+spec:
+  parentRefs:
+    - name: gateway
+      namespace: envoy-gateway
+  hostnames:
+    - prd.skdemo.online
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /
+      backendRefs:
+        - name: nginx-service-prd
+          port: 80
