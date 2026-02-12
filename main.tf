@@ -31,5 +31,5 @@ resource "azurerm_role_assignment" "rbac" {
   scope                = each.value.scope
   role_definition_name = each.value.role
   principal_id         = each.value.principal
-  principal_type       = "Group"
 }
+
