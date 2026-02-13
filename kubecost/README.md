@@ -58,7 +58,7 @@ helm upgrade --install kubecost kubecost/cost-analyzer \
   --version 2.8.4 \
   --set global.clusterId="aks-skdemo-poc" \
   --set kubecostToken="free-tier" \
-  --set prometheus.server.persistentVolume.enabled=falsego
+  --set prometheus.server.persistentVolume.enabled=false
 ```
 
 > This installs:
@@ -228,3 +228,18 @@ If you want, I can next provide:
 * 🧠 Cost optimization strategy for AKS
 
 Tell me which direction you want 🚀
+
+Uninstall Kubecost:
+
+```bash
+skadmin@MSI:~$ helm uninstall kubecost -n kubecost
+release "kubecost" uninstalled
+skadmin@MSI:~$ kubectl delete namespace kubecost
+namespace "kubecost" deleted
+skadmin@MSI:~$ kubectl get crds | grep -i kubecost
+turndownschedules.kubecost.com                        2026-02-13T02:12:09Z
+skadmin@MSI:~$ kubectl delete crd turndownschedules.kubecost.com
+customresourcedefinition.apiextensions.k8s.io "turndownschedules.kubecost.com" deleted
+
+helm repo remove kubecost
+```
