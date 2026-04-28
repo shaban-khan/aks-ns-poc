@@ -22,6 +22,12 @@ Make sure:
 ```bash
 kubectl get deployment metrics-server -n kube-system
 ```
+Output: 
+
+```bash
+NAME             READY   UP-TO-DATE   AVAILABLE   AGE
+metrics-server   2/2     2            2           4d16h
+```
 
 If not installed:
 
@@ -31,7 +37,7 @@ kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/late
 
 ---
 
-# ✅ Step 2 — Add Kubecost Helm Repo
+# ✅ Step 2 — Add OFFICIAL Kubecost Helm Repository
 
 ```bash
 helm repo add kubecost https://kubecost.github.io/cost-analyzer/
@@ -46,19 +52,52 @@ helm repo update
 kubectl create namespace kubecost
 ```
 
+Output:
+
+```bash
+namespace/kubecost created
+```
+
 ---
 
-# ✅ Step 4 — Install Kubecost (Free Version)
+# ✅ Step 4 — Deploy Kubecost using Official Helm Chart 
 
 For AKS, use this recommended install:
 
+find version using: helm search repo kubecost/cost-analyzer --versions
 ```bash
 helm upgrade --install kubecost kubecost/cost-analyzer \
   --namespace kubecost \
-  --version 2.8.4 \
-  --set global.clusterId="aks-skdemo-poc" \
-  --set kubecostToken="free-tier" \
-  --set prometheus.server.persistentVolume.enabled=false
+  --create-namespace \
+  --version 2.8.6 \
+  --set global.clusterId="shared-aks-01" \
+  --set kubecostToken="free-tier"
+```
+output:
+
+```bash
+Release "kubecost" does not exist. Installing it now.
+NAME: kubecost
+LAST DEPLOYED: Tue Apr 28 11:02:56 2026
+NAMESPACE: kubecost
+STATUS: deployed
+REVISION: 1
+NOTES:
+--------------------------------------------------
+Kubecost 2.8.6 has been successfully installed.
+
+Kubecost 2.x is a major upgrade from previous versions and includes major new features including a brand new API Backend. Please review the following documentation to ensure a smooth transition: https://www.ibm.com/docs/en/kubecost/self-hosted/2.x?topic=installation-kubecost-v2-installupgrade
+
+When pods are Ready, you can enable port-forwarding with the following command:
+
+    kubectl port-forward --namespace kubecost deployment/kubecost-cost-analyzer 9090
+
+Then, navigate to http://localhost:9090 in a web browser.
+
+Please allow 25 minutes for Kubecost to gather metrics. A progress indicator will appear at the top of the UI.
+
+Having installation issues? View our Troubleshooting Guide at https://www.ibm.com/docs/en/kubecost/self-hosted/2.x?topic=troubleshoot-install
+--------------------------------------------------
 ```
 
 > This installs:
@@ -75,6 +114,16 @@ helm upgrade --install kubecost kubecost/cost-analyzer \
 kubectl get pods -n kubecost
 ```
 
+output:
+
+```bash
+NAME                                          READY   STATUS    RESTARTS   AGE
+kubecost-cost-analyzer-85468c8bb8-9knwj       4/4     Running   0          2m32s
+kubecost-forecasting-6bd8dbbb77-45m8j         1/1     Running   0          2m32s
+kubecost-grafana-c774f8ff4-tmdb8              2/2     Running   0          2m32s
+kubecost-prometheus-server-59b6556977-745wn   1/1     Running   0          2m32s
+kubecost-prometheus-server-59b6556977-9h5s8   1/1     Running   0          2m32s
+``` 
 Wait until all pods are Running.
 
 ---
