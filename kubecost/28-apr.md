@@ -263,7 +263,7 @@ Create `values-azure.yaml`
 
 ```yaml
 kubecostProductConfigs:
-  clusterName: aks-prod-cluster
+  clusterName: skhanaks
 
 kubecostModel:
   cloudProviderAPIKey: azure-service-key
@@ -272,7 +272,7 @@ prometheus:
   server:
     global:
       external_labels:
-        cluster_id: aks-prod-cluster
+        cluster_id: shared-aks-01
 
 networkCosts:
   enabled: true
@@ -288,7 +288,35 @@ serviceAccount:
 ```bash
 helm upgrade --install kubecost kubecost/cost-analyzer \
   --namespace kubecost \
+  --version 2.8.6 \
   -f values-azure.yaml
+```
+
+output:
+
+```bash
+Release "kubecost" has been upgraded. Happy Helming!
+NAME: kubecost
+LAST DEPLOYED: Tue Apr 28 17:30:22 2026
+NAMESPACE: kubecost
+STATUS: deployed
+REVISION: 2
+NOTES:
+--------------------------------------------------
+Kubecost 2.8.6 has been successfully installed.
+
+Kubecost 2.x is a major upgrade from previous versions and includes major new features including a brand new API Backend. Please review the following documentation to ensure a smooth transition: https://www.ibm.com/docs/en/kubecost/self-hosted/2.x?topic=installation-kubecost-v2-installupgrade
+
+When pods are Ready, you can enable port-forwarding with the following command:
+
+    kubectl port-forward --namespace kubecost deployment/kubecost-cost-analyzer 9090
+
+Then, navigate to http://localhost:9090 in a web browser.
+
+Please allow 25 minutes for Kubecost to gather metrics. A progress indicator will appear at the top of the UI.
+
+Having installation issues? View our Troubleshooting Guide at https://www.ibm.com/docs/en/kubecost/self-hosted/2.x?topic=troubleshoot-install
+--------------------------------------------------
 ```
 
 ---
@@ -436,3 +464,4 @@ Just say **continue** 👇
 [1]: https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/scenarios/app-platform/aks/cost-governance-with-kubecost?utm_source=chatgpt.com "Cost governance with Kubecost - Cloud Adoption Framework"
 [2]: https://github.com/kubecost/kubecost?utm_source=chatgpt.com "Kubecost helm chart"
 [3]: https://www.ibm.com/docs/en/kubecost/self-hosted/1.x?topic=installation&utm_source=chatgpt.com "Installing Kubecost"
+![alt text](image.png)
