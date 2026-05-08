@@ -274,6 +274,56 @@ helm install ingress-nginx ingress-nginx/ingress-nginx \
   --namespace ingress-nginx \
   --set controller.service.annotations."service\.beta\.kubernetes\.io/azure-load-balancer-internal"="true"
 ```
+Real outout:
+```text id="o3d0rj"
+NAME: ingress-nginx
+LAST DEPLOYED: Fri May  8 04:57:06 2026
+NAMESPACE: ingress-nginx
+STATUS: deployed
+REVISION: 1
+TEST SUITE: None
+NOTES:
+The ingress-nginx controller has been installed.
+It may take a few minutes for the load balancer IP to be available.
+You can watch the status by running 'kubectl get service --namespace ingress-nginx ingress-nginx-controller --output wide --watch'
+
+An example Ingress that makes use of the controller:
+  apiVersion: networking.k8s.io/v1
+  kind: Ingress
+  metadata:
+    name: example
+    namespace: foo
+  spec:
+    ingressClassName: nginx
+    rules:
+      - host: www.example.com
+        http:
+          paths:
+            - pathType: Prefix
+              backend:
+                service:
+                  name: exampleService
+                  port:
+                    number: 80
+              path: /
+    # This section is only required if TLS is to be enabled for the Ingress
+    tls:
+      - hosts:
+        - www.example.com
+        secretName: example-tls
+
+If TLS is enabled for the Ingress, a Secret containing the certificate and key must also be provided:
+
+  apiVersion: v1
+  kind: Secret
+  metadata:
+    name: example-tls
+    namespace: foo
+  data:
+    tls.crt: <base64 encoded cert>
+    tls.key: <base64 encoded key>
+  type: kubernetes.io/tls
+  ```
 
 ---
 
@@ -481,6 +531,13 @@ NAME                       TYPE           CLUSTER-IP    EXTERNAL-IP   PORT(S)
 ingress-nginx-controller   LoadBalancer   10.0.10.20   10.224.0.25   80:32456/TCP,443:32011/TCP
 ```
 
+Real output:
+
+```text id="0lqvme"
+NAME                                 TYPE           CLUSTER-IP     EXTERNAL-IP   PORT(S)                      AGE
+ingress-nginx-controller             LoadBalancer   10.0.22.253    10.224.0.5    80:31874/TCP,443:30213/TCP   2m13s
+ingress-nginx-controller-admission   ClusterIP      10.0.186.221   <none>        443/TCP                      2m13s
+```
 ---
 
 # Important Understanding
@@ -662,10 +719,8 @@ metadata:
   name: demo-ingress
 spec:
   ingressClassName: nginx
-
   rules:
-  - host: internal.demo.local
-    http:
+  - http:
       paths:
       - path: /
         pathType: Prefix
@@ -673,7 +728,7 @@ spec:
           service:
             name: demo-service
             port:
-              number: 80
+              number: 80  
 ```
 
 ---
