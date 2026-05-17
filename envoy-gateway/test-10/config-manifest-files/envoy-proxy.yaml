@@ -1,0 +1,16 @@
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: EnvoyProxy
+metadata:
+  name: gateway-configuration
+  namespace: envoy-gateway-system
+spec:
+  provider:
+    type: Kubernetes
+    kubernetes:
+      envoyDeployment:
+        replicas: 2 # HA
+      envoyService:
+        type: LoadBalancer
+        annotations:
+          service.beta.kubernetes.io/azure-load-balancer-internal: "true"
+          service.beta.kubernetes.io/azure-load-balancer-internal-subnet: "aks-subnet"
