@@ -93,16 +93,16 @@ Without these CRDs:
 ```bash id="s1"
 kubectl apply -f https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.5.1/standard-install.yaml
 
-customresourcedefinition.apiextensions.k8s.io/backendtlspolicies.gateway.networking.k8s.io created
+customresourcedefinition.apiextensions.k8s.io/backendtlspolicies.gateway.networking.k8s.io configured
 customresourcedefinition.apiextensions.k8s.io/gatewayclasses.gateway.networking.k8s.io configured
 customresourcedefinition.apiextensions.k8s.io/gateways.gateway.networking.k8s.io configured
-customresourcedefinition.apiextensions.k8s.io/grpcroutes.gateway.networking.k8s.io created
+customresourcedefinition.apiextensions.k8s.io/grpcroutes.gateway.networking.k8s.io configured
 customresourcedefinition.apiextensions.k8s.io/httproutes.gateway.networking.k8s.io configured
-customresourcedefinition.apiextensions.k8s.io/listenersets.gateway.networking.k8s.io created
+customresourcedefinition.apiextensions.k8s.io/listenersets.gateway.networking.k8s.io configured
 customresourcedefinition.apiextensions.k8s.io/referencegrants.gateway.networking.k8s.io configured
-customresourcedefinition.apiextensions.k8s.io/tlsroutes.gateway.networking.k8s.io created
-validatingadmissionpolicy.admissionregistration.k8s.io/safe-upgrades.gateway.networking.k8s.io created
-validatingadmissionpolicybinding.admissionregistration.k8s.io/safe-upgrades.gateway.networking.k8s.io created
+customresourcedefinition.apiextensions.k8s.io/tlsroutes.gateway.networking.k8s.io configured
+validatingadmissionpolicy.admissionregistration.k8s.io/safe-upgrades.gateway.networking.k8s.io configured
+validatingadmissionpolicybinding.admissionregistration.k8s.io/safe-upgrades.gateway.networking.k8s.io configured
 ```
 
 ---
@@ -112,14 +112,26 @@ validatingadmissionpolicybinding.admissionregistration.k8s.io/safe-upgrades.gate
 ```bash id="s1v"
 kubectl get crds | grep gateway
 
-backendtlspolicies.gateway.networking.k8s.io     2026-04-25T02:52:33Z
-gatewayclasses.gateway.networking.k8s.io         2026-04-25T02:17:18Z
-gateways.gateway.networking.k8s.io               2026-04-25T02:17:19Z
-grpcroutes.gateway.networking.k8s.io             2026-04-25T02:52:36Z
-httproutes.gateway.networking.k8s.io             2026-04-25T02:17:21Z
-listenersets.gateway.networking.k8s.io           2026-04-25T02:52:40Z
-referencegrants.gateway.networking.k8s.io        2026-04-25T02:17:21Z
-tlsroutes.gateway.networking.k8s.io              2026-04-25T02:52:41Z
+backends.gateway.envoyproxy.io                        2026-06-08T12:55:50Z
+backendtlspolicies.gateway.networking.k8s.io          2026-06-08T12:55:48Z
+backendtrafficpolicies.gateway.envoyproxy.io          2026-06-08T12:55:51Z
+clienttrafficpolicies.gateway.envoyproxy.io           2026-06-08T12:55:52Z
+envoyextensionpolicies.gateway.envoyproxy.io          2026-06-08T12:55:52Z
+envoypatchpolicies.gateway.envoyproxy.io              2026-06-08T12:55:53Z
+envoyproxies.gateway.envoyproxy.io                    2026-06-08T12:55:56Z
+gatewayclasses.gateway.networking.k8s.io              2026-06-08T12:55:47Z
+gateways.gateway.networking.k8s.io                    2026-06-08T12:55:48Z
+grpcroutes.gateway.networking.k8s.io                  2026-06-08T12:55:48Z
+httproutefilters.gateway.envoyproxy.io                2026-06-08T12:55:57Z
+httproutes.gateway.networking.k8s.io                  2026-06-08T12:55:49Z
+listenersets.gateway.networking.k8s.io                2026-06-08T12:55:47Z
+referencegrants.gateway.networking.k8s.io             2026-06-08T12:55:47Z
+securitypolicies.gateway.envoyproxy.io                2026-06-08T12:55:58Z
+tcproutes.gateway.networking.k8s.io                   2026-06-08T12:55:47Z
+tlsroutes.gateway.networking.k8s.io                   2026-06-08T12:55:48Z
+udproutes.gateway.networking.k8s.io                   2026-06-08T12:55:48Z
+xbackendtrafficpolicies.gateway.networking.x-k8s.io   2026-06-08T12:55:48Z
+xmeshes.gateway.networking.x-k8s.io                   2026-06-08T12:55:47Z
 ```
 
 ---
@@ -148,19 +160,19 @@ Without this:
 
 ```bash id="s2"
 helm install eg oci://docker.io/envoyproxy/gateway-helm \
-  --version v1.7.2 \
-  -n envoy-gateway-system \
+  --version v1.8.1 \
+  -n envoy-gateway \
   --create-namespace
   --set installCRDs=false  
 ```
 Command output:
 
 ```bash
-Pulled: docker.io/envoyproxy/gateway-helm:v1.7.2
-Digest: sha256:02cfb2d2e9a31386f850a1ef3ab2a7a18a489eb2140a35c700c73b9b72b231f8
-NAME: eg
-LAST DEPLOYED: Sat Apr 25 02:59:26 2026
-NAMESPACE: envoy-gateway-system
+Pulled: docker.io/envoyproxy/gateway-helm:v1.8.1
+Digest: sha256:f46b2f38b695279fce81dced26d97724c3445fcccb0488aaa28ec5ef963a6181
+NAME: envoy
+LAST DEPLOYED: Mon Jun  8 12:56:05 2026
+NAMESPACE: envoy-gateway
 STATUS: deployed
 REVISION: 1
 TEST SUITE: None
@@ -173,14 +185,14 @@ Envoy Gateway is an open source project for managing Envoy Proxy as a standalone
 
 Thank you for installing Envoy Gateway! 🎉
 
-Your release is named: eg. 🎉
+Your release is named: envoy. 🎉
 
-Your release is in namespace: envoy-gateway-system. 🎉
+Your release is in namespace: envoy-gateway. 🎉
 
 To learn more about the release, try:
 
-  $ helm status eg -n envoy-gateway-system
-  $ helm get all eg -n envoy-gateway-system
+  $ helm status envoy -n envoy-gateway
+  $ helm get all envoy -n envoy-gateway
 
 To have a quickstart of Envoy Gateway, please refer to https://gateway.envoyproxy.io/latest/tasks/quickstart.
 
@@ -190,7 +202,7 @@ To get more details, please visit https://gateway.envoyproxy.io and https://gith
 ## 🔍 Verify
 
 ```bash id="s2v"
-kubectl get pods -n envoy-gateway-system
+kubectl get pods -n envoy-gateway
 ```
 
 ---
@@ -200,7 +212,7 @@ kubectl get pods -n envoy-gateway-system
 ```bash id="s2v2"
 kubectl wait --for=condition=Available \
   deployment/envoy-gateway \
-  -n envoy-gateway-system --timeout=300s
+  -n envoy-gateway --timeout=300s
 ```
 
 ---
@@ -228,7 +240,7 @@ apiVersion: gateway.envoyproxy.io/v1alpha1
 kind: EnvoyProxy
 metadata:
   name: internal-proxy
-  namespace: envoy-gateway-system
+  namespace: envoy-gateway
 spec:
   provider:
     type: Kubernetes
@@ -236,6 +248,7 @@ spec:
       envoyService:
         annotations:
           service.beta.kubernetes.io/azure-load-balancer-internal: "true"
+          service.beta.kubernetes.io/azure-load-balancer-internal-subnet: "aks-appgateway"
 ```
 
 ```bash id="s3a"
@@ -249,7 +262,7 @@ envoyproxy.gateway.envoyproxy.io/internal-proxy created
 ## 🔍 Verify
 
 ```bash id="s3v"
-kubectl get envoyproxy -n envoy-gateway-system
+kubectl get envoyproxy -n envoy-gateway
 
 NAME             AGE
 internal-proxy   2m11s
@@ -291,7 +304,7 @@ spec:
     group: gateway.envoyproxy.io
     kind: EnvoyProxy
     name: internal-proxy
-    namespace: envoy-gateway-system
+    namespace: envoy-gateway
 ```
 
 ```bash id="s4a"
@@ -316,7 +329,7 @@ kind: GatewayClass
 metadata:
   annotations:
     kubectl.kubernetes.io/last-applied-configuration: |
-      {"apiVersion":"gateway.networking.k8s.io/v1","kind":"GatewayClass","metadata":{"annotations":{},"name":"envoy"},"spec":{"controllerName":"gateway.envoyproxy.io/gatewayclass-controller","parametersRef":{"group":"gateway.envoyproxy.io","kind":"EnvoyProxy","name":"internal-proxy","namespace":"envoy-gateway-system"}}}
+      {"apiVersion":"gateway.networking.k8s.io/v1","kind":"GatewayClass","metadata":{"annotations":{},"name":"envoy"},"spec":{"controllerName":"gateway.envoyproxy.io/gatewayclass-controller","parametersRef":{"group":"gateway.envoyproxy.io","kind":"EnvoyProxy","name":"internal-proxy","namespace":"envoy-gateway"}}}
   creationTimestamp: "2026-04-25T03:34:20Z"
   generation: 1
   name: envoy
@@ -328,7 +341,7 @@ spec:
     group: gateway.envoyproxy.io
     kind: EnvoyProxy
     name: internal-proxy
-    namespace: envoy-gateway-system
+    namespace: envoy-gateway
 status:
   conditions:
   - lastTransitionTime: "2026-04-25T03:34:20Z"
@@ -418,7 +431,7 @@ Confirms:
 ---
 
 ```bash id="s6"
-kubectl get svc -n envoy-gateway-system
+kubectl get svc -n envoy-gateway
 ```
 
 ---
