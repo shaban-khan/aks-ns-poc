@@ -19,7 +19,7 @@ Install Envoy Gateway using the official Helm chart.
 
 ```bash
 helm install envoy oci://docker.io/envoyproxy/gateway-helm \
-  --version v1.3.3 \
+  --version v1.8.1 \
   --namespace envoy-gateway \
   --create-namespace
 ````
