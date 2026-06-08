@@ -31,13 +31,35 @@ kubectl wait --timeout=5m -n envoy-gateway deployment/envoy-gateway --for=condit
 ### Expected Output
 
 ```text
-Pulled: docker.io/envoyproxy/gateway-helm:v1.3.3
-Digest: sha256:f29dd79f61c17aba4b4d1c996138c473f5846f8a27f5216e36c2f21bd2cc7ce4
+Pulled: docker.io/envoyproxy/gateway-helm:v1.8.1
+Digest: sha256:f46b2f38b695279fce81dced26d97724c3445fcccb0488aaa28ec5ef963a6181
 NAME: envoy
-LAST DEPLOYED: Sat Feb  7 16:17:28 2026
+LAST DEPLOYED: Mon Jun  8 12:56:05 2026
 NAMESPACE: envoy-gateway
 STATUS: deployed
 REVISION: 1
+TEST SUITE: None
+NOTES:
+**************************************************************************
+*** PLEASE BE PATIENT: Envoy Gateway may take a few minutes to install ***
+**************************************************************************
+
+Envoy Gateway is an open source project for managing Envoy Proxy as a standalone or Kubernetes-based application gateway.
+
+Thank you for installing Envoy Gateway! 🎉
+
+Your release is named: envoy. 🎉
+
+Your release is in namespace: envoy-gateway. 🎉
+
+To learn more about the release, try:
+
+  $ helm status envoy -n envoy-gateway
+  $ helm get all envoy -n envoy-gateway
+
+To have a quickstart of Envoy Gateway, please refer to https://gateway.envoyproxy.io/latest/tasks/quickstart.
+
+To get more details, please visit https://gateway.envoyproxy.io and https://github.com/envoyproxy/gateway.
 ```
 
 > **Note:** Envoy Gateway may take a few minutes to install and become ready.
