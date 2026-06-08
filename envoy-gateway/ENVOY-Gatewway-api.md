@@ -22,7 +22,11 @@ helm install envoy oci://docker.io/envoyproxy/gateway-helm \
   --version v1.8.1 \
   --namespace envoy-gateway \
   --create-namespace
-````
+```
+
+```bash
+kubectl wait --timeout=5m -n envoy-gateway deployment/envoy-gateway --for=condition=Available
+```
 
 ### Expected Output
 
