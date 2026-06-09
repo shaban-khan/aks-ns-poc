@@ -1,0 +1,37 @@
+{
+  ":authority": "skhan.com", // host name from the request
+  "bytes_received": 0, // how many bytes came in from the client
+  "bytes_sent": 896, // how many bytes were sent back to the client
+  "connection_termination_details": null, // why the connection ended, if it ended early
+  "downstream_local_address": "10.244.0.198:10080", // local address on the request side
+  "downstream_remote_address": "10.225.0.4:56892", // client IP and port
+  "duration": 0, // how long the request took in ms
+  "method": "GET", // HTTP method used
+  "protocol": "HTTP/1.1", // protocol version
+  "requested_server_name": null, // requested server name, if any
+  "response_code": 200, // HTTP response status code
+  "response_code_details": "via_upstream", // extra detail from Envoy on the response
+  "response_flags": "-", // flags from Envoy about the response
+  "route_name": "httproute/default/nginx-route/rule/0/match/0/*", // matched route in Envoy
+  "start_time": "2026-06-08T18:24:02.483Z", // when the request started
+  "upstream_cluster": "httproute/default/nginx-route/rule/0", // upstream cluster used
+  "upstream_host": "10.244.0.250:80", // actual upstream host that handled the request
+  "upstream_local_address": "10.244.0.198:37916", // local address used to talk to upstream
+  "upstream_transport_failure_reason": null, // transport error reason, if any
+  "user-agent": "curl/8.5.0", // client user agent string
+  "x-envoy-origin-path": "/", // original request path
+  "x-envoy-upstream-service-time": null, // time spent by upstream service, if available
+  "x-forwarded-for": "10.225.0.4", // client IP forwarded by proxy
+  "x-request-id": "5ba5ccd8-f40a-4ed8-b50d-f84b8aba74e9" // unique request id
+}
+
+/*
+kubectl get pods,svc -n envoy-gateway -o wide
+NAME                                                                 READY   STATUS    RESTARTS   AGE     IP             NODE                                NOMINATED NODE   READINESS GATES
+pod/envoy-envoy-gateway-internal-gateway-08651333-7b4d97f8c9-n72fz   2/2     Running   0          4h48m   10.244.0.198   aks-agentpool-38631332-vmss000000   <none>           <none>
+pod/envoy-gateway-5c7d78654d-qfhpg                                   1/1     Running   0          5h37m   10.244.0.145   aks-agentpool-38631332-vmss000000   <none>           <none>
+
+NAME                                                    TYPE           CLUSTER-IP     EXTERNAL-IP   PORT(S)                                            AGE     SELECTOR
+service/envoy-envoy-gateway-internal-gateway-08651333   LoadBalancer   10.0.76.126    10.238.0.4    80:30802/TCP                                       4h48m   app.kubernetes.io/component=proxy,app.kubernetes.io/managed-by=envoy-gateway,app.kubernetes.io/name=envoy,gateway.envoyproxy.io/owning-gateway-name=internal-gateway,gateway.envoyproxy.io/owning-gateway-namespace=envoy-gateway
+service/envoy-gateway                                   ClusterIP      10.0.123.248   <none>        18000/TCP,18001/TCP,18002/TCP,19001/TCP,9443/TCP   5h37m   app.kubernetes.io/instance=envoy,app.kubernetes.io/name=gateway-helm,control-plane=envoy-gateway
+*/
