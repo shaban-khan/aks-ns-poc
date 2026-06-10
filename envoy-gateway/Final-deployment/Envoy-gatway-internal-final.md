@@ -162,8 +162,12 @@ Without this:
 helm install eg oci://docker.io/envoyproxy/gateway-helm \
   --version v1.8.1 \
   -n envoy-gateway \
-  --create-namespace
-  --set installCRDs=false  
+  --create-namespace \
+  --set installCRDs=false \
+  --set-string service.annotations."service\.beta\.kubernetes\.io/azure-load-balancer-internal"="true" \
+  --set-string service.annotations."service\.beta\.kubernetes\.io/azure-load-balancer-internal-subnet"="aks-ilb-subnet"
+
+
 ```
 Command output:
 
