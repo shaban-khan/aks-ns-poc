@@ -161,12 +161,11 @@ Without this:
 ```bash id="s2"
 helm install eg oci://docker.io/envoyproxy/gateway-helm \
   --version v1.8.1 \
-  -n envoy-gateway \
+  -n envoy-gateway-system \
   --create-namespace \
   --set installCRDs=false \
   --set-string service.annotations."service\.beta\.kubernetes\.io/azure-load-balancer-internal"="true" \
   --set-string service.annotations."service\.beta\.kubernetes\.io/azure-load-balancer-internal-subnet"="aks-ilb-subnet"
-
 
 ```
 Command output:
@@ -176,7 +175,7 @@ Pulled: docker.io/envoyproxy/gateway-helm:v1.8.1
 Digest: sha256:f46b2f38b695279fce81dced26d97724c3445fcccb0488aaa28ec5ef963a6181
 NAME: envoy
 LAST DEPLOYED: Mon Jun  8 12:56:05 2026
-NAMESPACE: envoy-gateway
+NAMESPACE: envoy-gateway-system
 STATUS: deployed
 REVISION: 1
 TEST SUITE: None
@@ -191,12 +190,12 @@ Thank you for installing Envoy Gateway! 🎉
 
 Your release is named: envoy. 🎉
 
-Your release is in namespace: envoy-gateway. 🎉
+Your release is in namespace: envoy-gateway-system. 🎉
 
 To learn more about the release, try:
 
-  $ helm status envoy -n envoy-gateway
-  $ helm get all envoy -n envoy-gateway
+  $ helm status envoy -n envoy-gateway-system
+  $ helm get all envoy -n envoy-gateway-system
 
 To have a quickstart of Envoy Gateway, please refer to https://gateway.envoyproxy.io/latest/tasks/quickstart.
 
@@ -206,7 +205,7 @@ To get more details, please visit https://gateway.envoyproxy.io and https://gith
 ## 🔍 Verify
 
 ```bash id="s2v"
-kubectl get pods -n envoy-gateway
+kubectl get pods -n envoy-gateway-system
 ```
 
 ---
@@ -216,9 +215,8 @@ kubectl get pods -n envoy-gateway
 ```bash id="s2v2"
 kubectl wait --for=condition=Available \
   deployment/envoy-gateway \
-  -n envoy-gateway --timeout=300s
+  -n envoy-gateway-system --timeout=300s
 ```
-
 ---
 
 # 🚀 Step 3: Create EnvoyProxy (AKS Internal LoadBalancer config)
@@ -228,6 +226,26 @@ kubectl wait --for=condition=Available \
 Defines how Envoy is deployed in Kubernetes, including cloud-specific behavior.
 
 ---
+
+## Install Envoy Gateway CRDs
+
+helm template eg-crds oci://docker.io/envoyproxy/gateway-crds-helm \
+  --version v1.9.0 \
+  --set crds.gatewayAPI.enabled=false \
+  --set crds.envoyGateway.enabled=true \
+  | kubectl apply --server-side -f -
+
+## Output:
+Pulled: docker.io/envoyproxy/gateway-crds-helm:v1.9.0
+Digest: sha256:a6a111682429c1ee1949bebe560f773dd00db4b1c1572f5056c3bfa1c8a30ad6
+customresourcedefinition.apiextensions.k8s.io/backends.gateway.envoyproxy.io serverside-applied
+customresourcedefinition.apiextensions.k8s.io/backendtrafficpolicies.gateway.envoyproxy.io serverside-applied
+customresourcedefinition.apiextensions.k8s.io/clienttrafficpolicies.gateway.envoyproxy.io serverside-applied
+customresourcedefinition.apiextensions.k8s.io/envoyextensionpolicies.gateway.envoyproxy.io serverside-applied
+customresourcedefinition.apiextensions.k8s.io/envoypatchpolicies.gateway.envoyproxy.io serverside-applied
+customresourcedefinition.apiextensions.k8s.io/envoyproxies.gateway.envoyproxy.io serverside-applied
+customresourcedefinition.apiextensions.k8s.io/httproutefilters.gateway.envoyproxy.io serverside-applied
+customresourcedefinition.apiextensions.k8s.io/securitypolicies.gateway.envoyproxy.io serverside-applied
 
 ## 🧠 Why this step is needed
 
@@ -244,7 +262,7 @@ apiVersion: gateway.envoyproxy.io/v1alpha1
 kind: EnvoyProxy
 metadata:
   name: internal-proxy
-  namespace: envoy-gateway
+  namespace: envoy-gateway-system
 spec:
   provider:
     type: Kubernetes
@@ -266,7 +284,7 @@ envoyproxy.gateway.envoyproxy.io/internal-proxy created
 ## 🔍 Verify
 
 ```bash id="s3v"
-kubectl get envoyproxy -n envoy-gateway
+kubectl get envoyproxy -n envoy-gateway-system
 
 NAME             AGE
 internal-proxy   2m11s
@@ -308,7 +326,7 @@ spec:
     group: gateway.envoyproxy.io
     kind: EnvoyProxy
     name: internal-proxy
-    namespace: envoy-gateway
+    namespace: envoy-gateway-system
 ```
 
 ```bash id="s4a"
@@ -345,7 +363,7 @@ spec:
     group: gateway.envoyproxy.io
     kind: EnvoyProxy
     name: internal-proxy
-    namespace: envoy-gateway
+    namespace: envoy-gateway-system
 status:
   conditions:
   - lastTransitionTime: "2026-04-25T03:34:20Z"
@@ -435,7 +453,7 @@ Confirms:
 ---
 
 ```bash id="s6"
-kubectl get svc -n envoy-gateway
+kubectl get svc -n envoy-gateway-system
 ```
 
 ---
